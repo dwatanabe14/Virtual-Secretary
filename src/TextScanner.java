@@ -1,20 +1,52 @@
-import java.io.File;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
-
-public class TextScanner  {
+import java.io.*;
+import java.util.*;
+			
+public class TextScanner {
 	
-	public String getDate(File in) throws IOException {
-        String date = new String();
-		
-		return date;
+	private File file = new File("data.txt");
+	
+	private ArrayList<String> setData(File in) {
+		ArrayList<String> data = new ArrayList<String>();
+		try {
+			BufferedReader reader = new BufferedReader(new FileReader(in));
+			String line;
+			while ((line = reader.readLine()) != null) {
+				data.add(line);
+			}
+			reader.close();
+		}
+		catch (IOException e) {
+			e.printStackTrace();
+		}
+		return data;
 	}
 	
-	public String getAssignment(File in) throws IOException {
-		String assignment = new String();
-		
-		return assignment;
+	public ArrayList<String> getData() {
+			ArrayList<String> data = setData(file);
+			return data;
+	}
+	
+	public void saveData(String input) {
+		try{
+			FileWriter fw = new FileWriter(file, false);
+			BufferedWriter bw = new BufferedWriter(fw);
+			bw.write(input);
+			bw.close();
+		}
+		catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public void newFile() {
+		try{
+			if(!file.exists()) {
+				file.createNewFile();
+			}
+		}
+		catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 	
 }
