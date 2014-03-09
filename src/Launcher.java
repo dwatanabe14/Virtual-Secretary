@@ -1,9 +1,19 @@
 import java.awt.Dimension;
 import javax.swing.JFrame;
 
-public class Launcher {
+/**
+ * A basic homework planner that uses Swing for the GUI
+ * @author David Watanabe
+ *
+ */
 
-	public static void main(String[] args) { // main method launches the main window
+public class Launcher {
+	
+	/**
+	 * main method runs the program
+	 * @param args
+	 */
+	public static void main(String[] args) {
 		Interface gui = new Interface("Virtual Secretary");
 		TextScanner scanner = new TextScanner();
 		scanner.newFile();

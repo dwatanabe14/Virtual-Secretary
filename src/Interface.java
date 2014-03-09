@@ -3,21 +3,24 @@ import java.awt.event.*;
 import javax.swing.*;
 import java.util.*; 
 
-
+/**
+ * Class deals with the GUI.
+ * @author David Watanabe
+ *
+ */
 public class Interface extends JFrame implements ActionListener {
 	
 	private static final long serialVersionUID = 6508264993886617118L;
 
-	Dimension minimumSize = new Dimension(100, 50);
+	private final Dimension minimumSize = new Dimension(100, 50);
 	
 	private JButton delete, complete, incomplete, create;
 	private JTextField textField;
 	private JComboBox monthBox, dayBox, yearBox;
-	private ButtonGroup group;
 	private ArrayList<JRadioButton> radioList;
 	private JPanel leftPanel, assignmentPanel;
 	
-	String[] months = {
+	private final String[] months = {
 			"January",
 			"Febuary",
 			"March",
@@ -32,7 +35,7 @@ public class Interface extends JFrame implements ActionListener {
 			"December"
 	};
 	
-	String[] days = {
+	private final String[] days = {
 			"1", "2", "3", "4", "5", "6", "7",
 			"8", "9", "10", "11", "12", "13", "14",
 			"15", "16", "17", "18", "19", "20", "21",
@@ -40,18 +43,25 @@ public class Interface extends JFrame implements ActionListener {
 			"29", "30", "31"
 	};
 	
-	String[] years = {
+	private final String[] years = {
 			"2014", "2015", "2016", "2017", "2018"
 	};
 	
-	public Interface(String title) { // main interface
+	/**
+	 * shows the interface
+	 * @param title  name of the program
+	 */
+	public Interface(String title) {
 		super(title);
 		display();
 		this.setSize(700, 400);
 		this.setVisible(true);
 	}
 	
-	public void display() {
+	/**
+	 * starts the interface with a split pane that will have components added to it.
+	 */
+	private void display() {
 		JScrollPane left = leftUI();
 		JPanel right = rightUI();
 		
@@ -62,7 +72,11 @@ public class Interface extends JFrame implements ActionListener {
 		this.add(splitPane);
 	}
 	
-	public JScrollPane leftUI() {
+	/**
+	 * the left portion of the GUI
+	 * @return this JComponent
+	 */
+	private JScrollPane leftUI() {
 		
 		leftPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
 		leftPanel.setMinimumSize(minimumSize);
@@ -79,7 +93,12 @@ public class Interface extends JFrame implements ActionListener {
 		return scrollPane;
 	}
 	
-	public JPanel assignments() {
+	/**
+	 * creates a panel that lists the assignments using radio buttons.
+	 * used in leftUI(). 
+	 * @return this JComponent
+	 */
+	private JPanel assignments() {
 		JPanel radioPanel = new JPanel(new GridLayout(0,1));
 		
 		TextScanner scanner = new TextScanner();
@@ -87,7 +106,7 @@ public class Interface extends JFrame implements ActionListener {
 		ArrayList<String> data = scanner.getData();
 		JRadioButton thisButton;
 		radioList = new ArrayList<JRadioButton>();
-		group = new ButtonGroup();
+		ButtonGroup group = new ButtonGroup();
 		for(String d : data) {
 			radioList.add(new JRadioButton(fmt.radioText(d)));
 			thisButton = radioList.get(radioList.size() - 1);
@@ -100,7 +119,11 @@ public class Interface extends JFrame implements ActionListener {
 		return radioPanel;
 	}
 	
-	public JPanel rightUI() {
+	/**
+	 * the right portion of the GUI
+	 * @return this JComponent
+	 */
+	private JPanel rightUI() {
 		JPanel rightPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
 		rightPanel.setMinimumSize(minimumSize);
 		
@@ -113,7 +136,12 @@ public class Interface extends JFrame implements ActionListener {
 		return rightPanel;
 	}
 	
-	public JPanel buttonPanel() {
+	/**
+	 * panel of buttons that can modify assignments that are selected in assignments().
+	 * used in rightUI().
+	 * @return this JComponent
+	 */
+	private JPanel buttonPanel() {
 		JPanel buttonPanel = new JPanel(new GridBagLayout());
 		GridBagConstraints c = new GridBagConstraints();
 		
@@ -152,7 +180,12 @@ public class Interface extends JFrame implements ActionListener {
 		return buttonPanel;
 	}
 	
-	public JPanel inputPanel() {
+	/**
+	 * panel of inputs that are used to create new assignments.
+	 * used in rightUI().
+	 * @return this JComponent
+	 */
+	private JPanel inputPanel() {
 		JPanel inputPanel = new JPanel(new GridBagLayout());
 		GridBagConstraints c = new GridBagConstraints();
 		
@@ -206,12 +239,16 @@ public class Interface extends JFrame implements ActionListener {
 		return inputPanel;
 	}
 	
+	/*
+	 * (non-Javadoc)
+	 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
+	 */
 	public void actionPerformed(ActionEvent e) {
 		Format fmt = new Format();
 		
 		for (JRadioButton rb : radioList) {
 			int index = radioList.indexOf(rb);
-			if (e.getSource() == complete && rb.isSelected()) {
+			if (e.getSource() == complete && rb.isSelected()) { // Mark assignment as complete
 				fmt.markComplete(index);
 				leftPanel.remove(assignmentPanel);
 				assignmentPanel = assignments();
@@ -220,7 +257,7 @@ public class Interface extends JFrame implements ActionListener {
 				leftPanel.validate();
 				leftPanel.repaint();
 			}
-			if (e.getSource() == incomplete && rb.isSelected()) {
+			if (e.getSource() == incomplete && rb.isSelected()) { // Mark assignment as incomplete
 				fmt.markIncomplete(index);
 				leftPanel.remove(assignmentPanel);
 				assignmentPanel = assignments();
@@ -229,7 +266,7 @@ public class Interface extends JFrame implements ActionListener {
 				leftPanel.validate();
 				leftPanel.repaint();
 			}
-			if (e.getSource() == delete && rb.isSelected()) {
+			if (e.getSource() == delete && rb.isSelected()) { // Delete assignment (with confirmation dialog)
 				JFrame optionFrame = new JFrame();
 				int n = JOptionPane.showConfirmDialog(
                         optionFrame, "Delete the selected assignment?",
@@ -246,7 +283,7 @@ public class Interface extends JFrame implements ActionListener {
 				}
 			}
 		}
-		if (e.getSource() == create) {
+		if (e.getSource() == create) { // Create new assignment
 			String t = textField.getText();
 			String m = new Integer(Arrays.asList(months).indexOf(monthBox.getSelectedItem()) + 1).toString();
 			String d = (String) dayBox.getSelectedItem();
