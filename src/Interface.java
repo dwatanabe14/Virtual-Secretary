@@ -85,13 +85,16 @@ public class Interface extends JFrame implements ActionListener {
 		TextScanner scanner = new TextScanner();
 		Format fmt = new Format();
 		ArrayList<String> data = scanner.getData();
+		JRadioButton thisButton;
 		radioList = new ArrayList<JRadioButton>();
 		group = new ButtonGroup();
-		for(String s : data) {
-			radioList.add(new JRadioButton(fmt.radioText(s)));
-			group.add(radioList.get(radioList.size() - 1));
-			radioPanel.add(radioList.get(radioList.size() - 1));
-			(radioList.get(radioList.size() - 1)).addActionListener(this);
+		for(String d : data) {
+			radioList.add(new JRadioButton(fmt.radioText(d)));
+			thisButton = radioList.get(radioList.size() - 1);
+			thisButton.setFont(fmt.radioFont(d));
+			group.add(thisButton);
+			radioPanel.add(thisButton);
+			thisButton.addActionListener(this);
 		}
 		
 		return radioPanel;
@@ -114,11 +117,11 @@ public class Interface extends JFrame implements ActionListener {
 		JPanel buttonPanel = new JPanel(new GridBagLayout());
 		GridBagConstraints c = new GridBagConstraints();
 		
-		JLabel header = new JLabel("Selected Assigment:");
+		JLabel header = new JLabel("Modify Selected Assigment:");
 		c.fill = GridBagConstraints.BOTH;
 		c.gridx = 0;
 		c.gridy = 0;
-		c.gridwidth = 1;
+		c.gridwidth = 2;
 		buttonPanel.add(header, c);
 		
 		complete = new JButton("Mark as Complete");
@@ -154,7 +157,7 @@ public class Interface extends JFrame implements ActionListener {
 		GridBagConstraints c = new GridBagConstraints();
 		
 		
-		JLabel header = new JLabel("New Assigment:");
+		JLabel header = new JLabel("Create New Assigment:");
 		c.fill = GridBagConstraints.BOTH;
 		c.gridx = 0;
 		c.gridy = 0;
@@ -205,36 +208,42 @@ public class Interface extends JFrame implements ActionListener {
 	
 	public void actionPerformed(ActionEvent e) {
 		Format fmt = new Format();
+		
 		for (JRadioButton rb : radioList) {
+			int index = radioList.indexOf(rb);
 			if (e.getSource() == complete && rb.isSelected()) {
-				int index = radioList.indexOf(rb);
 				fmt.markComplete(index);
 				leftPanel.remove(assignmentPanel);
 				assignmentPanel = assignments();
+				radioList.get(index).setSelected(true);
 				leftPanel.add(assignmentPanel);
 				leftPanel.validate();
 				leftPanel.repaint();
 			}
 			if (e.getSource() == incomplete && rb.isSelected()) {
-				int index = radioList.indexOf(rb);
 				fmt.markIncomplete(index);
 				leftPanel.remove(assignmentPanel);
 				assignmentPanel = assignments();
+				radioList.get(index).setSelected(true);
 				leftPanel.add(assignmentPanel);
 				leftPanel.validate();
 				leftPanel.repaint();
 			}
 			if (e.getSource() == delete && rb.isSelected()) {
-				int index = radioList.indexOf(rb);
-				group.clearSelection();
-				group.remove(rb);
-				radioList.remove(rb);
-				fmt.remove(index);
-				leftPanel.remove(assignmentPanel);
-				assignmentPanel = assignments();
-				leftPanel.add(assignmentPanel);
-				leftPanel.validate();
-				leftPanel.repaint();
+				JFrame optionFrame = new JFrame();
+				int n = JOptionPane.showConfirmDialog(
+                        optionFrame, "Delete the selected assignment?",
+                        "Confirmation Dialog",
+                        JOptionPane.YES_NO_OPTION,
+                        JOptionPane.WARNING_MESSAGE);
+				if (n == JOptionPane.YES_OPTION) {
+					fmt.remove(index);
+					leftPanel.remove(assignmentPanel);
+					assignmentPanel = assignments();
+					leftPanel.add(assignmentPanel);
+					leftPanel.validate();
+					leftPanel.repaint();
+				}
 			}
 		}
 		if (e.getSource() == create) {
