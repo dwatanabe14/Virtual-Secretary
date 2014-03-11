@@ -37,7 +37,7 @@ public class Format {
 		ArrayList<String> dataList = scanner.getData();
 		String newData = "[" + month + "/" + day + "/" + year + "] " + title + " 0"; // Note: the number at the end of the string indicates the completion status. 0 = incomplete (default). 1 = complete.
 		dataList.add(newData);
-		scanner.saveData(combineList(dataList)); //save the all data to txt
+		scanner.saveData(combineList(dataList)); //save the all data to text file
 	}
 	
 	/**
@@ -58,7 +58,7 @@ public class Format {
 	public Font radioFont(String data) {
 		int completion = Integer.parseInt(data.substring(data.length() - 1));
 		Font font = UIManager.getDefaults().getFont("RadioButton.font");
-		if(completion == 1) {
+		if(completion == 1) { // the code inside of this if statement comes from Stack Overflow
 			Map<TextAttribute, Object>  attributes = new HashMap<TextAttribute, Object>();
 			attributes.put(TextAttribute.STRIKETHROUGH, TextAttribute.STRIKETHROUGH_ON); 
 			font = font.deriveFont(attributes);

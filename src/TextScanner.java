@@ -8,6 +8,11 @@ import java.util.*;
  */
 public class TextScanner {
 	
+	/*
+	 * IMPORTANT: data is generally saved in the following format
+	 * [mm/dd/yy] assignment_name (completion #)
+	 */
+	
 	private File file = new File("data.txt");
 	
 	/**
