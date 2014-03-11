@@ -11,16 +11,16 @@ public class TextScanner {
 	private File file = new File("data.txt");
 	
 	/**
-	 * sets data by reading a text file and creating an ArrayList
+	 * reads the text file and puts the data in an ArrayList
 	 * @param in  the file to be read
 	 * @return  ArrayList of data
 	 */
-	private ArrayList<String> setData(File in) {
+	private ArrayList<String> loadData(File in) {
 		ArrayList<String> data = new ArrayList<String>();
 		try {
 			BufferedReader reader = new BufferedReader(new FileReader(in));
 			String line;
-			while ((line = reader.readLine()) != null) {
+			while ((line = reader.readLine()) != null) { // read each line separately
 				data.add(line);
 			}
 			reader.close();
@@ -32,11 +32,11 @@ public class TextScanner {
 	}
 	
 	/**
-	 * gets data from the setter method above
+	 * gets data from the method above
 	 * @return ArrayList of data
 	 */
 	public ArrayList<String> getData() {
-			ArrayList<String> data = setData(file);
+			ArrayList<String> data = loadData(file);
 			return data;
 	}
 	

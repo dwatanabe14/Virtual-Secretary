@@ -10,7 +10,7 @@ import javax.swing.*;
  */
 public class Format {
 	
-	private final String separator = System.getProperty("line.separator");
+	private final String separator = System.getProperty("line.separator"); // does the same thing as "\n", but ensures platform compatibility
 	
 	/**
 	 * Combines an ArrayList of data into a single string that will be saved to a text file.
@@ -37,7 +37,7 @@ public class Format {
 		ArrayList<String> dataList = scanner.getData();
 		String newData = "[" + month + "/" + day + "/" + year + "] " + title + " 0"; // Note: the number at the end of the string indicates the completion status. 0 = incomplete (default). 1 = complete.
 		dataList.add(newData);
-		scanner.saveData(combineList(dataList));
+		scanner.saveData(combineList(dataList)); //save the all data to txt
 	}
 	
 	/**
@@ -53,7 +53,7 @@ public class Format {
 	/**
 	 * if the assignment is marked as completed, adds a strike-through attribute to the font.
 	 * @param data  String of data to be manipulated
-	 * @return  the font (with or without strike-through)
+	 * @return font (returns default font if assignment is incomplete)
 	 */
 	public Font radioFont(String data) {
 		int completion = Integer.parseInt(data.substring(data.length() - 1));

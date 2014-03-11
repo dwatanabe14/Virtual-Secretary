@@ -107,10 +107,10 @@ public class Interface extends JFrame implements ActionListener {
 		JRadioButton thisButton;
 		radioList = new ArrayList<JRadioButton>();
 		ButtonGroup group = new ButtonGroup();
-		for(String d : data) {
+		for(String d : data) { // turn the data ArrayList into an ArrayList of JRadioButtons 
 			radioList.add(new JRadioButton(fmt.radioText(d)));
 			thisButton = radioList.get(radioList.size() - 1);
-			thisButton.setFont(fmt.radioFont(d));
+			thisButton.setFont(fmt.radioFont(d)); // change the font of completed assignments to have a strike-through
 			group.add(thisButton);
 			radioPanel.add(thisButton);
 			thisButton.addActionListener(this);
@@ -252,7 +252,7 @@ public class Interface extends JFrame implements ActionListener {
 				fmt.markComplete(index);
 				leftPanel.remove(assignmentPanel);
 				assignmentPanel = assignments();
-				radioList.get(index).setSelected(true);
+				radioList.get(index).setSelected(true); // the selected item remains selected
 				leftPanel.add(assignmentPanel);
 				leftPanel.validate();
 				leftPanel.repaint();
@@ -268,8 +268,8 @@ public class Interface extends JFrame implements ActionListener {
 			}
 			if (e.getSource() == delete && rb.isSelected()) { // Delete assignment (with confirmation dialog)
 				JFrame optionFrame = new JFrame();
-				int n = JOptionPane.showConfirmDialog(
-                        optionFrame, "Delete the selected assignment?",
+				int n = JOptionPane.showConfirmDialog(optionFrame,
+                        "Delete the selected assignment?",
                         "Confirmation Dialog",
                         JOptionPane.YES_NO_OPTION,
                         JOptionPane.WARNING_MESSAGE);
@@ -285,9 +285,9 @@ public class Interface extends JFrame implements ActionListener {
 		}
 		if (e.getSource() == create) { // Create new assignment
 			String t = textField.getText();
-			String m = new Integer(Arrays.asList(months).indexOf(monthBox.getSelectedItem()) + 1).toString();
-			String d = (String) dayBox.getSelectedItem();
-			String y = ((String) yearBox.getSelectedItem()).substring(2);
+			String m = new Integer(Arrays.asList(months).indexOf(monthBox.getSelectedItem()) + 1).toString(); // numerical value of the month
+			String d = (String) dayBox.getSelectedItem(); // the day
+			String y = ((String) yearBox.getSelectedItem()).substring(2); // last two digits of the year
 			fmt.addData(t, m, d, y);
 			textField.setText("");
 			leftPanel.remove(assignmentPanel);
