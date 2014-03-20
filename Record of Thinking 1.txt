@@ -1,0 +1,7 @@
+Record of Thinking #1:
+
+Taking a look at my commits, it doesn't appear like I've done much. This is because I am gathering resources before I do too much on my project. I've read through much of the tutorials and the API involving javax.swing and java.io. Even though I probably won't retain everything I've read, I think it helps to gather mental notes about the libraries you will be working with before starting on a project.
+
+I'm taking this approach because in the past projects that I've done independently, there has been times where I've written a bunch of code, only to realize that there was a method that would've made it easier. For example, writing a method to sort an array when there is already a sort() method that exists within the API.
+
+Today I've looked through at a past project that I thought could help me. Apparently not. Firstly, I didn't comment my code so I have forgotten what most of it did. It goes to show that you should always comment. Secondly, it doesn't compile in Eclipse. It returns the error "Unsupported major.minor version 51.0" I tried to switch the JRE version I am using in order to solve the problem, but it still doesn't work. It compiles fine in Dr. Java, but it doesn't seem to support all of the features that I put in because the UI looks different from what I remember.
